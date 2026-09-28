@@ -1,0 +1,111 @@
+# ═══════════════════════════════════════════════════════════
+#  SimpanDrive — .gitignore
+# ═══════════════════════════════════════════════════════════
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===== Virtual Environment =====
+venv/
+env/
+ENV/
+.venv/
+.env/
+.python-version
+
+# ===== Flask =====
+instance/
+.webassets-cache
+flask_session/
+
+# ===== Node / Tailwind =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm/
+.yarn/
+.pnp.*
+.pnp.js
+
+# ===== Hasil build Tailwind (opsional) =====
+# Uncomment kalau mau di-ignore, biarkan comment kalau mau di-commit
+# static/tailwind.css
+
+# ===== Data runtime =====
+shared/
+*.log
+logs/
+
+# ===== Environment / Secrets =====
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+!static/favicon.svg
+
+# ===== Database =====
+*.sqlite
+*.sqlite3
+*.db
+
+# ===== OS =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ===== Editor / IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# ===== Testing / Coverage =====
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+*.cover
+
+# ===== Misc =====
+*.bak
+*.tmp
+*.temp
+*.orig
+.cache/

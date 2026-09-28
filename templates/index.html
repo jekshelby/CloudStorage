@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+        name="viewport">
+    <title>SimpanDrive</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="apple-touch-icon" href="/static/favicon.svg">
+    <meta name="theme-color" content="#4F46E5">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+        rel="stylesheet">
+
+    <!-- Tailwind build statis -->
+    <link rel="stylesheet" href="/static/tailwind.css">
+    <!-- Custom CSS — dimuat terakhir agar bisa override Tailwind -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+
+    <!-- ═══════════════════════════════════════════════════════
+     DESKTOP SHELL
+═══════════════════════════════════════════════════════ -->
+    <div class="desktop-shell hidden md:flex h-screen overflow-hidden w-full">
+
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between flex-shrink-0 z-20">
+            <div class="p-5 flex flex-col gap-6">
+                <div class="flex items-center gap-3 px-1">
+                    <div
+                        class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path
+                                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span
+                            class="text-base font-bold tracking-tight text-slate-900 block leading-tight">SimpanDrive</span>
+                        <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Local
+                            Storage</span>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <button id="newActionButton" onclick="toggleDropdown()"
+                        class="w-full flex items-center justify-center gap-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition-all text-white font-semibold py-2.5 px-4 rounded-xl shadow-sm shadow-indigo-600/30">
+                        <svg class="w-5 h-5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="text-sm">Aksi Baru</span>
+                        <svg class="w-4 h-4 ml-auto text-indigo-200" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                        </svg>
+                    </button>
+                    <div id="newMenuDropdown"
+                        class="hidden absolute left-0 right-0 top-12 mt-2 bg-white rounded-xl shadow-xl border border-slate-100 py-1.5 z-30">
+                        <button onclick="newFolder(); toggleDropdown()"
+                            class="w-full flex items-center gap-3 px-3.5 py-2 text-sm text-slate-700 hover:bg-slate-50 text-left font-medium">
+                            <span
+                                class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>Folder Baru
+                        </button>
+                        <button onclick="fileInput.click(); toggleDropdown()"
+                            class="w-full flex items-center gap-3 px-3.5 py-2 text-sm text-slate-700 hover:bg-slate-50 text-left font-medium">
+                            <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>Upload File
+                        </button>
+                        <button onclick="pickFolder(); toggleDropdown()"
+                            class="w-full flex items-center gap-3 px-3.5 py-2 text-sm text-slate-700 hover:bg-slate-50 text-left font-medium">
+                            <span
+                                class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>Upload Folder
+                        </button>
+                    </div>
+                </div>
+
+                <nav class="space-y-1">
+                    <p class="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Penyimpanan</p>
+                    <a href="#/" onclick="event.preventDefault(); navigate(''); return false;"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold rounded-xl bg-indigo-50/80 text-indigo-600">
+                        <svg class="w-5 h-5 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor"
+                            stroke-width="1.75" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                        </svg>
+                        <span>File Saya</span>
+                    </a>
+                    <a href="#" onclick="load(currentPath); return false;"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-600 hover:bg-slate-100/70">
+                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.75"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        <span>Muat Ulang</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="p-5 border-t border-slate-100 space-y-4">
+                <button onclick="load(currentPath)"
+                    class="w-full flex items-center justify-between text-xs font-medium text-slate-500 hover:text-indigo-600 px-3 py-2 rounded-lg bg-slate-50 hover:bg-indigo-50/50 transition">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Muat Ulang
+                    </span>
+                    <span class="text-[10px] text-slate-400 font-mono">F5</span>
+                </button>
+                <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-100">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-semibold text-slate-700">Item</span>
+                        <span class="text-xs font-bold text-indigo-600" id="itemCountDesktop">0</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-600 rounded-full transition-all" id="itemBarDesktop"
+                            style="width:0%"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-2 leading-tight" id="itemInfoDesktop">Memuat...</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="flex-1 flex flex-col min-w-0 bg-[#F8FAFC]">
+            <header
+                class="h-16 border-b border-slate-200/80 bg-white px-6 flex items-center justify-between gap-4 flex-shrink-0">
+                <div class="flex-1 max-w-xl">
+                    <div class="relative">
+                        <span
+                            class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <input id="searchInputDesktop" oninput="syncSearch(this.value)" type="text"
+                            class="w-full pl-10 pr-4 py-2 text-sm bg-slate-50 hover:bg-slate-100/70 focus:bg-white border-transparent focus:border-indigo-400 rounded-xl transition placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-100"
+                            placeholder="Cari file atau folder...">
+                    </div>
+                </div>
+            </header>
+
+            <div class="bg-white border-b border-slate-200/80 px-8 py-3.5 flex items-center justify-between gap-3">
+                <nav class="flex items-center gap-2 text-sm text-slate-500 font-medium flex-wrap"
+                    id="breadcrumbDesktop"></nav>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200/80 px-3 py-1.5 rounded-lg">
+                        <span id="itemCountLabelDesktop">0 item</span>
+                    </div>
+                    <div class="flex items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200/60">
+                        <button id="viewGridBtn" onclick="setView('grid')"
+                            class="p-1.5 rounded-md bg-white text-indigo-600 shadow-sm" title="Grid">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path
+                                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <button id="viewListBtn" onclick="setView('list')"
+                            class="p-1.5 rounded-md text-slate-400 hover:text-slate-700" title="List">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <main id="desktopMain" class="flex-1 overflow-y-auto p-8">
+                <div class="text-center py-20 text-slate-400">⏳ Memuat...</div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     MOBILE SHELL
+═══════════════════════════════════════════════════════ -->
+    <div class="mobile-shell">
+
+        <header class="m-header">
+            <div class="brand">
+                <div class="brand-logo">
+                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">cloud_done</span>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">SimpanDrive</span>
+                    <span class="brand-sub" id="mobileSubtitle">Local Storage</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="m-body">
+
+            <section class="m-search">
+                <span class="material-symbols-outlined">search</span>
+                <input id="searchInputMobile" oninput="syncSearch(this.value)" type="text"
+                    placeholder="Cari file, video, dokumen...">
+            </section>
+
+            <section class="m-crumb-block">
+                <div class="m-crumb-row">
+                    <nav class="m-crumb" id="breadcrumbMobile"></nav>
+                    <button class="m-view-toggle" onclick="toggleMobileView()" aria-label="Ganti tampilan">
+                        <span class="material-symbols-outlined" id="mobileViewIcon">grid_view</span>
+                    </button>
+                </div>
+                <div class="m-chips-row">
+                    <button class="m-sort-chip">
+                        <span class="material-symbols-outlined">swap_vert</span>
+                        <span>Urutkan: Nama</span>
+                        <span class="material-symbols-outlined chev">expand_more</span>
+                    </button>
+                    <span class="m-item-count" id="itemCountMobile">0 item</span>
+                </div>
+            </section>
+
+            <div id="mobileMain" style="display:flex; flex-direction:column; gap:20px;">
+                <div class="m-empty">
+                    <span class="material-symbols-outlined">hourglass_empty</span>
+                    <p>Memuat...</p>
+                </div>
+            </div>
+
+            <section class="m-storage">
+                <div class="m-storage-head">
+                    <div class="m-storage-head-left">
+                        <div class="m-storage-icon">
+                            <span class="material-symbols-outlined">cloud_sync</span>
+                        </div>
+                        <div>
+                            <div class="m-storage-title">Penyimpanan</div>
+                            <div class="m-storage-sub">Folder ini</div>
+                        </div>
+                    </div>
+                    <span class="m-storage-pct" id="mStoragePct">0%</span>
+                </div>
+                <div class="m-storage-bar">
+                    <div id="mStorageBar" style="width:0%"></div>
+                </div>
+                <div class="m-storage-foot">
+                    <span id="mStorageInfo">0 item</span>
+                    <span>Lokal</span>
+                </div>
+            </section>
+        </div>
+
+        <div class="m-upload-toast" id="mUploadToast">
+            <div class="row">
+                <div class="left">
+                    <span class="material-symbols-outlined up-icon">cloud_upload</span>
+                    <div style="min-width:0; flex:1;">
+                        <div class="name" id="mUploadName">Mengunggah...</div>
+                        <div class="meta" id="mUploadMeta">Menyiapkan...</div>
+                    </div>
+                </div>
+                <button class="close-btn" onclick="document.getElementById('mUploadToast').classList.remove('show')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="bar">
+                <div id="mUploadFill" style="width:0%"></div>
+            </div>
+        </div>
+
+        <button class="m-fab" onclick="showFabMenu()" aria-label="Aksi Baru">
+            <span class="material-symbols-outlined">add</span>
+            <span>Unggah / Baru</span>
+        </button>
+
+        <div id="fabBackdrop" class="fab-backdrop" onclick="closeFabMenu()"></div>
+        <div id="fabMenu" class="fab-menu-mobile">
+            <button onclick="newFolder(); closeFabMenu()">
+                <span
+                    style="width:32px;height:32px;border-radius:8px;background:#fef9c3;color:#ca8a04;display:flex;align-items:center;justify-content:center;">
+                    <span class="material-symbols-outlined" style="font-size:18px;">create_new_folder</span>
+                </span>
+                Folder Baru
+            </button>
+            <button onclick="fileInput.click(); closeFabMenu()">
+                <span
+                    style="width:32px;height:32px;border-radius:8px;background:#dbeafe;color:#2563eb;display:flex;align-items:center;justify-content:center;">
+                    <span class="material-symbols-outlined" style="font-size:18px;">upload_file</span>
+                </span>
+                Upload File
+            </button>
+            <button onclick="pickFolder(); closeFabMenu()">
+                <span
+                    style="width:32px;height:32px;border-radius:8px;background:#d1fae5;color:#059669;display:flex;align-items:center;justify-content:center;">
+                    <span class="material-symbols-outlined" style="font-size:18px;">drive_folder_upload</span>
+                </span>
+                Upload Folder
+            </button>
+        </div>
+
+        <nav class="m-bottom-nav">
+            <div class="items">
+                <button class="m-nav-item active" onclick="navigate(''); setActiveNav(this)">
+                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">home</span>
+                    <span>Beranda</span>
+                </button>
+                <button class="m-nav-item" onclick="fileInput.click(); setActiveNav(this)">
+                    <span class="material-symbols-outlined">upload</span>
+                    <span>Upload</span>
+                </button>
+                <button class="m-nav-item" onclick="newFolder(); setActiveNav(this)">
+                    <span class="material-symbols-outlined">create_new_folder</span>
+                    <span>Folder</span>
+                </button>
+                <button class="m-nav-item" onclick="load(currentPath); setActiveNav(this)">
+                    <span class="material-symbols-outlined">refresh</span>
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     SHARED ELEMENTS
+═══════════════════════════════════════════════════════ -->
+    <input type="file" id="fileInput" multiple hidden>
+
+    <div id="contextMenu" class="context-menu hidden">
+        <button data-action="rename" onclick="ctxRename()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Rename
+        </button>
+        <button data-action="download" onclick="ctxDownload()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            Download
+        </button>
+        <button data-action="delete" class="danger" onclick="ctxDelete()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Hapus
+        </button>
+    </div>
+
+    <div id="uploadWidget"
+        class="hidden fixed bottom-6 right-6 w-96 bg-slate-900/95 backdrop-blur-md text-white rounded-2xl shadow-2xl p-4 border border-slate-700/60 z-50">
+        <div class="flex items-start justify-between gap-3 mb-2.5">
+            <div class="flex items-center gap-2.5 min-w-0">
+                <div
+                    class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" stroke-width="2.5"
+                        viewBox="0 0 24 24">
+                        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="truncate">
+                    <div class="text-xs font-semibold text-slate-100 truncate" id="uploadName">Mengunggah...</div>
+                    <p class="text-[11px] text-slate-400" id="uploadMeta">Menyiapkan...</p>
+                </div>
+            </div>
+            <span class="text-xs font-bold text-indigo-400 mr-1.5" id="uploadPercent">0%</span>
+        </div>
+        <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+            <div id="uploadFill"
+                class="bg-gradient-to-r from-blue-500 to-indigo-500 h-1.5 rounded-full relative transition-all duration-300"
+                style="width:0%">
+                <span class="absolute inset-0 bg-white/20 upload-progress-glow"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="previewModal"
+        class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm items-center justify-center p-0 md:p-4">
+        <div
+            class="bg-white md:rounded-2xl shadow-2xl w-full md:max-w-6xl h-full md:h-auto md:max-h-[92vh] flex flex-col overflow-hidden">
+            <div class="px-4 md:px-5 py-3.5 border-b border-slate-200 flex items-center gap-3">
+                <div class="flex-1 min-w-0">
+                    <div class="text-sm font-semibold text-slate-800 truncate" id="previewTitle"></div>
+                    <div class="text-[11px] text-slate-400" id="previewSubtitle"></div>
+                </div>
+                <button onclick="downloadCurrent()"
+                    class="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 text-xs font-semibold px-3 py-1.5 rounded-lg transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span class="hidden sm:inline">Download</span>
+                </button>
+                <button onclick="closePreview()"
+                    class="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+            <div id="previewBody"
+                class="flex-1 overflow-auto flex items-center justify-center bg-slate-50 p-2 md:p-4 min-h-[200px]">
+            </div>
+        </div>
+    </div>
+
+    <div id="renameModal"
+        class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div class="px-5 py-3.5 border-b border-slate-200">
+                <div class="text-sm font-semibold text-slate-800">✏️ Rename</div>
+            </div>
+            <div class="p-5">
+                <input id="renameInput"
+                    class="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none"
+                    autocomplete="off">
+                <div class="flex gap-2 justify-end mt-4">
+                    <button onclick="closeRename()"
+                        class="px-4 py-2 text-sm font-medium bg-slate-100 hover:bg-slate-200 rounded-lg transition">Batal</button>
+                    <button onclick="confirmRename()"
+                        class="px-4 py-2 text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
